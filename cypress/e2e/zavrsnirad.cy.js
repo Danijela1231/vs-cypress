@@ -23,6 +23,7 @@ describe('zavrsni rad', () => {
     })
 
     it('add board', () => {
+        cy.intercept('POST', 'https://cypress-api.vivifyscrum-stage.com/api/v2/boards').as('kreiranBoard')
         addBoard.addBoardButton.should('be.visible')
         addBoard.addBoardButton.click()
         addBoard.add('organizacija5', 'organizacija')
@@ -32,6 +33,11 @@ describe('zavrsni rad', () => {
         addBoard.clickNextButton()
         addBoard.clickNextButton()
         addBoard.clickNextButton()
+        cy.wait('@kreiranBoard').then(intercept => {
+            expect(intercept.response.statusCode).to.eq(201)
+            boardID = intercept.response.body.id
+            console.log(intercept);
+        })
     })
     it('edit board', () => {
         editBoard.clickConfigButton()
