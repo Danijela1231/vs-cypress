@@ -23,7 +23,6 @@ describe('zavrsni rad', () => {
     })
 
     it('add board', () => {
-        cy.intercept
         addBoard.addBoardButton.should('be.visible')
         addBoard.addBoardButton.click()
         addBoard.add('organizacija5', 'organizacija')
